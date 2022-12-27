@@ -1,16 +1,21 @@
 import datetime
 import platform
 import subprocess
-import threading
 import time
 
 from pynput import keyboard 
-
 
 #? This is a sendbox detection script that is focused on evading Joe Sandbox 
 #? https://www.joesandbox.com/#windows
 #? It looks as if the sandbox will only run for 500 seconds (8 min and 20 seconds)
 #? We will focus on evading detecion on Windows systems 
+
+#? Objectives:
+#? 1. Sleep beyond the sandbox time out feature
+#? 2. Check for the OS version:
+#?  Desktops should have more key strokes 
+#?  Servers we be expected to have fewer 
+#? Get the uptime for the system, the longer the uptime the less likely it's a sandbox
 
 SLEEP_TIMER = 520
 
@@ -29,14 +34,6 @@ SERVER_KEY_COUNT = 10
 
 MEASURE_TIME = 5 * 60
 
-
-
-#? Objectives:
-#? 1. Sleep beyond the sandbox time out feature
-#? 2. Check for the OS version:
-#?  Desktops should have more key strokes 
-#?  Servers we be expected to have fewer 
-#? Get the uptime for the system, the longer the uptime the less likely it's a sandbox
 
 class SBD:
     def __init__(self) -> None:
@@ -134,15 +131,14 @@ class SBD:
     def get_key_count(self):
         return self.key_count
 
+
     def hibernate(self, timer):
         time.sleep(timer)
 
 
 if __name__ == '__main__':
     sbd = SBD()
-    # sbd.hibernate(SLEEP_TIMER)
     os = sbd.get_os()
-    # print(os)
     diff = sbd.get_boot_diff()
     sbd.count_keys()
 
