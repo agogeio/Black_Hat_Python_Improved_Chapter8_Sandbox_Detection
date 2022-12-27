@@ -1,0 +1,7 @@
+/build
+/dist
+/include
+/Lib
+/Scripts
+*.spec
+*.cfg
